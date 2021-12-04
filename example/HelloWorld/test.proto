@@ -8,6 +8,12 @@ service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
   // Sends another greeting
   rpc SayHelloAgain (HelloRequest) returns (HelloReply) {}
+  // Client stream 
+  rpc SayHello ( stream HelloRequest) returns (HelloReply) {}
+  // Server stream 
+  rpc SayHello ( HelloRequest) returns ( stream HelloReply) {}
+  // Both stream 
+  rpc SayHello ( stream HelloRequest) returns (stream HelloReply) {}
 }
 
 // The request message containing the user's name.
