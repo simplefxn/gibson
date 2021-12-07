@@ -1,0 +1,62 @@
+package service
+
+import (
+	"{{ .PackageName }}/common"
+	"{{ .PackageName }}/common/logger"
+	"{{ .PackageName }}/pkg/pb"
+	g "{{ .PackageName }}/service/grpc"
+	"context"
+
+	"github.com/gorilla/mux"
+)
+
+// {{ .PackageName }}Service main struct to hold the microservice server
+// Consider change to RunTime Server
+type {{ .PackageName }}Service struct {
+	pb.UnimplementedGreeterServer
+	configOpts common.ConfigOpts
+	grpc       *g.Runtime
+	http       *mux.Router
+	cancelFunc []func()
+}
+
+// New{{ .PackageName }}Service create a new server for the microservice protobuffer
+func New{{ .PackageName }}Service(configOpts common.ConfigOpts) {{ .PackageName }}Service {
+
+	svc := {{ .PackageName }}Service{}
+
+	svc.grpc = g.NewServer(configOpts.GrpcOpts)
+	pb.RegisterGreeterServer(svc.grpc.GetRuntime(), svc)
+
+	return svc
+}
+
+{{ $p := .PackageName }}
+{{- range .Service.Methods }}
+func (svc {{ $p }}Service) {{ .Name -}}
+	{{- if and (.IsStreamClient) (.IsStreamServer) -}} 
+	(svr pb.{{ $.Service.Name }}_{{ .Name }}Server) error {
+	return nil
+}
+	{{- else if .IsStreamClient -}}
+	(svr pb.{{ $.Service.Name }}_{{ .Name }}Server) error {
+	return nil
+}
+	{{- else if .IsStreamServer -}}
+	(in *pb.{{- .Request -}}, svr pb.{{ $.Service.Name }}_{{ .Name }}Server) error {
+	return nil
+}
+	{{- else -}}
+	(ctx context.Context, in *pb.{{- .Request -}}) (*pb.{{ .Response }}, error) {
+	r := pb.{{ .Response }}{}
+	return &r, nil
+}
+	{{ end }}
+{{ end }}
+// Start ...
+func (svc {{ .PackageName }}Service) Start() {
+	err := svc.grpc.Serve()
+	if err != nil {
+		logger.Log.Errorf("%s", err)
+	}
+}

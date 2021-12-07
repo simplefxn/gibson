@@ -1,7 +1,7 @@
 syntax = "proto3";
 package HelloWorld;
 
-option go_package = ".;HelloWorld";
+option go_package = ".;pb";
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
@@ -9,11 +9,11 @@ service Greeter {
   // Sends another greeting
   rpc SayHelloAgain (HelloRequest) returns (HelloReply) {}
   // Client stream 
-  rpc SayHello ( stream HelloRequest) returns (HelloReply) {}
+  rpc SayHelloClientStream ( stream HelloRequest) returns (HelloReply) {}
   // Server stream 
-  rpc SayHello ( HelloRequest) returns ( stream HelloReply) {}
+  rpc SayHelloServerStream ( HelloRequest) returns ( stream HelloReply) {}
   // Both stream 
-  rpc SayHello ( stream HelloRequest) returns (stream HelloReply) {}
+  rpc SayHelloStream ( stream HelloRequest) returns (stream HelloReply) {}
 }
 
 // The request message containing the user's name.
