@@ -1,0 +1,17 @@
+syntax = "proto3";
+package PingPong;
+
+option go_package = ".;pb";
+// The greeting service definition.
+service PingPong {
+  rpc Ping (empty) returns (Pong) {}
+  rpc PingServerStream (empty) returns (stream Pong) {}
+}
+
+// The response message containing the greetings
+message Pong {
+  int64 ts = 1;
+}
+
+message empty {
+}
