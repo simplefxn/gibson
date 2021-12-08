@@ -1,0 +1,17 @@
+syntax = "proto3";
+package RipeIngest;
+
+option go_package = ".;pb";
+// The greeting service definition.
+service Ripe {
+  rpc Stream (stream RIS_Message) returns (Empty) {}
+}
+
+// The response message containing the greetings
+message RIS_Message {
+  string type = 1;
+  string data = 2;
+}
+
+message Empty {
+}
