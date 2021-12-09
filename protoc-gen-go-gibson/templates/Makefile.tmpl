@@ -15,6 +15,11 @@ darwin:
 windows:
 	GOOS=windows GOARCH=${GOARCH} go build -o ${BINARY_DIR}/${BINARY}-windows-${GOARCH}.exe main.go
 
+images:
+	podman build -t {{ .PackageName | ToLower }}_client:latest -f Dockerfile.client .
+	podman build -t {{ .PackageName | ToLower }}_server:latest -f Dockerfile.server .
+
+
 clean:
 	${RM} ${BINARY_DIR}/${BINARY}-*
 

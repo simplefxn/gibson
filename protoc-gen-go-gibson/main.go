@@ -81,6 +81,8 @@ var generatedFiles = map[string]string{
 	"./service/grpc/server.go":  "templates/service/grpc/server.go.tmpl",
 	"./service/grpc/tls.go":     "templates/service/grpc/tls.go.tmpl",
 	"./service/http/server.go":  "templates/service/http/server.go.tmpl",
+	"./Dockerfile.client":       "Dockerfile.client.tmpl",
+	"./Dockerfile.server":       "Dockerfile.server.tmpl",
 	//"./cmd/{svc}/main.go":    "templates/cmd/main.tmpl",
 	//"./pkg/server/server.go": "templates/server/server.tmpl",
 }
